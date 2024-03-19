@@ -99,7 +99,38 @@ class ProductTest {
 
     }
 
-    private fun normalProductByPrice(name: String, sku: String, price: BigDecimal): ProductDTO {
-        return ProductDTO(name, sku, "NORMAL", price, "image.jpg")
+    @Test
+    fun `should get normal price when the quantity greater than 100`() {
+        every { mockedClient.listProducts() } returns
+                listOf(highDemandProductByPrice("watch", "SKU_1", BigDecimal(20)))
+        every { mockedClient.listInventories() } returns listOf(InventoryDTO("SKU_1", "A", 101))
+
+        val products = this.productService.listProducts()
+
+        assertEquals(1, products.size)
+        assertEquals(BigDecimal(20), products[0].price)
     }
+
+    @Test
+    fun `should get 120 percent of the price when the quantity between 30 and 100`() {
+        every { mockedClient.listProducts() } returns
+                listOf(highDemandProductByPrice("computer", "SKU_2", BigDecimal(20)))
+        every { mockedClient.listInventories() } returns listOf(
+            InventoryDTO("SKU_2", "A", 20),
+            InventoryDTO("SKU_2", "C", 30)
+        )
+
+        val products = this.productService.listProducts()
+
+        assertEquals(1, products.size)
+        assertEquals("SKU_2", products[0].sku)
+        assertEquals(BigDecimal.valueOf(24.0), products[0].price)
+    }
+
+    private fun normalProductByPrice(name: String, sku: String, price: BigDecimal): ProductDTO =
+        ProductDTO(name, sku, "NORMAL", price, "image.jpg")
+
+    private fun highDemandProductByPrice(name: String, sku: String, price: BigDecimal): ProductDTO =
+        ProductDTO(name, sku, "HIGH_DEMAND", price, "image.jpg")
+
 }
