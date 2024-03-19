@@ -34,7 +34,7 @@ class ProductTest {
     }
 
     @Test
-    fun `should get 0 quantity when given an empty inventory`() {
+    fun `should get 0 entities when given an empty inventory`() {
         val PRODUCT_1 = ProductDTO("kotlin", "SKU_1")
         every { mockedClient.listProducts() } returns listOf(PRODUCT_1)
         every { mockedClient.listInventories() } returns emptyList()
