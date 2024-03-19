@@ -36,7 +36,7 @@ data class Product(
             when {
                 this.quantity > 100 -> this.originalPrice
                 this.quantity in 30..100 -> this.originalPrice.multiply(BigDecimal.valueOf(1.2))
-                else -> this.originalPrice
+                else -> this.originalPrice.multiply(BigDecimal.valueOf(1.5))
             }
         }
     }

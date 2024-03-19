@@ -127,6 +127,20 @@ class ProductTest {
         assertEquals(BigDecimal.valueOf(24.0), products[0].price)
     }
 
+    @Test
+    fun `should get 150 percent of the price when the quantity less than 30`() {
+        every { mockedClient.listProducts() } returns
+                listOf(highDemandProductByPrice("computer", "SKU_2", BigDecimal(20)))
+        every { mockedClient.listInventories() } returns listOf(
+            InventoryDTO("SKU_2", "A", 20),
+        )
+
+        val products = this.productService.listProducts()
+
+        assertEquals(1, products.size)
+        assertEquals("SKU_2", products[0].sku)
+        assertEquals(BigDecimal.valueOf(30.0), products[0].price)
+    }
     private fun normalProductByPrice(name: String, sku: String, price: BigDecimal): ProductDTO =
         ProductDTO(name, sku, "NORMAL", price, "image.jpg")
 
