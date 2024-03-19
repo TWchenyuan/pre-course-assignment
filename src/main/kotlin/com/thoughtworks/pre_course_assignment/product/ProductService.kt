@@ -6,12 +6,9 @@ class ProductService(private val client: ProductClient) {
     fun listProducts(): List<Product> {
         val products = client.listProducts()
         val inventoryHash = client.listInventories().groupBy { it.sku }
-        return products.map { buildProduct(it, inventoryHash) }
+        return products.map { it.toProduct(inventoryHash[it.sku] ?: emptyList()) }
     }
 
-    private fun buildProduct(product: ProductDTO, inventoryHash: Map<String, List<InventoryDTO>>): Product {
-        return product.toProduct(inventoryHash.getOrDefault(product.sku, emptyList()))
-    }
 }
 
 fun ProductDTO.toProduct(inventories: List<InventoryDTO>): Product {
