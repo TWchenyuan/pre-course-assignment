@@ -5,7 +5,7 @@ class ProductService(private val client: ProductClient) {
         val products = client.listProducts()
         val inventories = client.listInventories()
         return products.map {
-            Product(it.sku, it.name, inventories.first { inventory -> inventory.sku == it.sku }.quantity)
+            Product(it.sku, it.name, inventories.firstOrNull { inventory -> inventory.sku == it.sku }?.quantity ?: 0)
         }
     }
 }

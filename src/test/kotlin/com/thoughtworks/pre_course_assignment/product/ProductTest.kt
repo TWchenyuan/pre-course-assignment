@@ -32,4 +32,18 @@ class ProductTest {
         assertEquals("kotlin", products[0].name)
         assertEquals(1000, products[0].quantity)
     }
+
+    @Test
+    fun `should get 0 quantity when given an empty inventory`() {
+        val PRODUCT_1 = ProductDTO("kotlin", "SKU_1")
+        every { mockedClient.listProducts() } returns listOf(PRODUCT_1)
+        every { mockedClient.listInventories() } returns emptyList()
+
+        val products = this.productService.listProducts()
+
+        assertEquals(1, products.size)
+        assertEquals("SKU_1", products[0].sku)
+        assertEquals("kotlin", products[0].name)
+        assertEquals(0, products[0].quantity)
+    }
 }
