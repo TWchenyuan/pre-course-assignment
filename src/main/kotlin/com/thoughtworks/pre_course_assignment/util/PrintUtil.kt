@@ -1,4 +1,4 @@
-package com.thoughtworks.pre_course_assginment.util
+package com.thoughtworks.pre_course_assignment.util
 
 class PrintUtil {
     fun printTable(headers: List<String>, rows: List<List<String>>) {

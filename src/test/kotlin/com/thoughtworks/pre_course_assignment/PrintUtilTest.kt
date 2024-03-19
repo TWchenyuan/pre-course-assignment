@@ -1,6 +1,6 @@
 package com.thoughtworks.pre_course_assignment
 
-import com.thoughtworks.pre_course_assginment.util.PrintUtil
+import com.thoughtworks.pre_course_assignment.util.PrintUtil
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
