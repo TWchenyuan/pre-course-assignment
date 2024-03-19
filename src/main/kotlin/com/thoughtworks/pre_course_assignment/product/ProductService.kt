@@ -4,8 +4,9 @@ class ProductService(private val client: ProductClient) {
     fun listProducts(): List<Product> {
         val products = client.listProducts()
         val inventories = client.listInventories()
+        val productInventoryHash = inventories.groupBy { it.sku }
         return products.map {
-            Product(it.sku, it.name, inventories.firstOrNull { inventory -> inventory.sku == it.sku }?.quantity ?: 0)
+            Product(it.sku, it.name, productInventoryHash.get(it.sku)?.map { it.quantity }?.sum() ?: 0)
         }
     }
 }

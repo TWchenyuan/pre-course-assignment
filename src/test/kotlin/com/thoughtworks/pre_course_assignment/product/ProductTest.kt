@@ -46,4 +46,22 @@ class ProductTest {
         assertEquals("kotlin", products[0].name)
         assertEquals(0, products[0].quantity)
     }
+
+    @Test
+    fun `should be 159 entities in total when 150 in region A and 9 in region B`() {
+        val PRODUCT_1 = ProductDTO("kotlin", "SKU_1")
+        val INVENTORIES = listOf(
+            InventoryDTO("SKU_1", "A", 150),
+            InventoryDTO("SKU_1", "B", 9),
+        )
+        every { mockedClient.listProducts() } returns listOf(PRODUCT_1)
+        every { mockedClient.listInventories() } returns INVENTORIES
+
+        val products = this.productService.listProducts()
+
+        assertEquals(1, products.size)
+        assertEquals("SKU_1", products[0].sku)
+        assertEquals("kotlin", products[0].name)
+        assertEquals(159, products[0].quantity)
+    }
 }
