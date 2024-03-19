@@ -1,5 +1,7 @@
 package com.thoughtworks.pre_course_assignment.product
 
+import java.math.BigDecimal
+
 class ProductClient {
     fun listProducts(): List<ProductDTO> {
         return emptyList()
@@ -12,6 +14,9 @@ class ProductClient {
 data class ProductDTO(
     val name: String,
     val sku: String,
+    val type: String,
+    val price: BigDecimal,
+    val image: String
 )
 
 
