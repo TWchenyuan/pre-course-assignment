@@ -17,6 +17,7 @@ fun ProductDTO.toProduct(inventories: List<InventoryDTO>): Product {
         this.name,
         ProductType.valueOf(this.type),
         this.price,
+        this.image,
         inventories.map { Product.Inventory(it.zone, it.quantity) }
     )
 }
@@ -26,6 +27,7 @@ data class Product(
     val name: String,
     val type: ProductType,
     val originalPrice: BigDecimal,
+    val image: String,
     private val inventories: List<Inventory>,
 ) {
 
@@ -49,4 +51,17 @@ data class Product(
 
 enum class ProductType {
     NORMAL, HIGH_DEMAND
+}
+
+fun List<Product>.toStringList(): List<List<String>> {
+    return this.map {
+        listOf(
+            it.sku,
+            it.name,
+            it.type.name,
+            it.price.toPlainString(),
+            it.quantity.toString(),
+            it.image
+        )
+    }
 }
