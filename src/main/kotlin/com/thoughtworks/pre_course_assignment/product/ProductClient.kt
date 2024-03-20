@@ -13,16 +13,6 @@ interface ProductClient {
     suspend fun listInventories(): List<InventoryDTO>
 }
 
-class ProductClientStub {
-    fun listProducts(): List<ProductDTO> {
-        return emptyList()
-    }
-
-    fun listInventories(): List<InventoryDTO> {
-        return emptyList()
-    }
-}
-
 data class ProductDTO(
     val name: String,
     @SerializedName("SKU")
