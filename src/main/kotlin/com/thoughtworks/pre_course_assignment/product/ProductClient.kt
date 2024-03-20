@@ -24,6 +24,7 @@ data class ProductDTO(
 
 
 data class InventoryDTO(
+    @SerializedName("SKU")
     val sku: String,
     val zone: String,
     val quantity: Long

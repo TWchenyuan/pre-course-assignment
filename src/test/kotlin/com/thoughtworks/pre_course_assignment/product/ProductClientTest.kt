@@ -13,7 +13,7 @@ import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-class ProductClientStubTest {
+class ProductClientTest {
     private lateinit var client: ProductClient
     private lateinit var mockedWebService: MockWebServer
 
@@ -53,7 +53,7 @@ class ProductClientStubTest {
         )
         mockedWebService.enqueue(response)
 
-        val products = this@ProductClientStubTest.client.listProducts()
+        val products = client.listProducts()
         assertNotNull(products)
         assertEquals(2, products.size)
         assertContentEquals(
@@ -74,6 +74,47 @@ class ProductClientStubTest {
                 )
             ), products
         )
+    }
+
+    @Test
+    fun `should fetch inventories when fetch from remote`() = runTest {
+        val response = MockResponse().setResponseCode(200).setBody(
+            """
+            [
+              {
+                "id": "1",
+                "SKU": "ABC123",
+                "zone": "CN_NORTH",
+                "quantity": 120
+              },
+              {
+                "id": "2",
+                "SKU": "ABC123",
+                "zone": "US_WEST",
+                "quantity": 80
+              }
+            ]
+        """.trimIndent()
+        )
+        mockedWebService.enqueue(response)
+        val inventories = client.listInventories()
+        assertNotNull(inventories)
+        assertEquals(2, inventories.size)
+        assertContentEquals(
+            listOf(
+                InventoryDTO(
+                    sku = "ABC123",
+                    zone = "CN_NORTH",
+                    quantity = 120
+                ),
+                InventoryDTO(
+                    sku = "ABC123",
+                    zone = "US_WEST",
+                    quantity = 80
+                )
+            ), inventories
+        )
+
     }
 
     @AfterEach
