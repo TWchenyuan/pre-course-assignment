@@ -1,6 +1,5 @@
 package com.thoughtworks.pre_course_assignment
 
-import com.google.gson.Gson
 import com.thoughtworks.pre_course_assignment.product.Product
 import com.thoughtworks.pre_course_assignment.product.ProductClient
 import com.thoughtworks.pre_course_assignment.product.ProductService
@@ -18,7 +17,7 @@ fun fetchProduct(): List<Product> = runBlocking {
     products
 }
 
-fun main(args: Array<String>) {
+fun main() {
     val printUtil = PrintUtil()
     val productStringList = fetchProduct().toStringList()
     printUtil.printTable(listOf("SKU", "name", "type","price", "quantity", "image"), productStringList)
