@@ -1,11 +1,23 @@
 package com.thoughtworks.pre_course_assignment.product
 
+import com.google.gson.annotations.SerializedName
+import retrofit2.http.GET
 import java.math.BigDecimal
 
-class ProductClient {
+interface ProductClient {
+
+    @GET("/products")
+    suspend fun listProducts(): List<ProductDTO>
+
+    @GET("/inventories")
+    suspend fun listInventories(): List<InventoryDTO>
+}
+
+class ProductClientStub {
     fun listProducts(): List<ProductDTO> {
         return emptyList()
     }
+
     fun listInventories(): List<InventoryDTO> {
         return emptyList()
     }
@@ -13,6 +25,7 @@ class ProductClient {
 
 data class ProductDTO(
     val name: String,
+    @SerializedName("SKU")
     val sku: String,
     val type: String,
     val price: BigDecimal,

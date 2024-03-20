@@ -2,7 +2,7 @@ package com.thoughtworks.pre_course_assignment.product
 
 import java.math.BigDecimal
 
-class ProductService(private val client: ProductClient) {
+class ProductService(private val client: ProductClientStub) {
     fun listProducts(): List<Product> {
         val products = client.listProducts()
         val inventoryHash = client.listInventories().groupBy { it.sku }

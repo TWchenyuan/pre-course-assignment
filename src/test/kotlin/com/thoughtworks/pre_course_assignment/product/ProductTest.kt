@@ -7,7 +7,7 @@ import java.math.BigDecimal
 import kotlin.test.assertEquals
 
 class ProductTest {
-    private val mockedClient = mockk<ProductClient>()
+    private val mockedClient = mockk<ProductClientStub>()
     private val productService = ProductService(mockedClient)
 
     @Test
